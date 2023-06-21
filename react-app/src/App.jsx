@@ -27,10 +27,51 @@ function App() {
 
   const [turn, setTurn] = useState(TURN.X)
 
+  //el estado de los combos que vamos a hacer
+  const [winner, setWinner] = useState(null)
+
+  //revisar y asegurar nuestro ganador
+  const checkWinner = (boardCheck) =>{
+    //revisamos las combinaciones posibles que tenemos
+    for(const combo of winner_combos){
+      const [a,b,c] = combo;
+      if(boardCheck[a] &&
+        boardCheck[a] === boardCheck[b] &&
+        boardCheck[a] === boardCheck[c]
+      )
+      return boardCheck[a];
+    }
+    //Significa que no tenemos aun ningun ganador
+    return null;
+
+  }
+
+  
+  const winner_combos = [
+    //En este apartado van todas las combinaciones ganadoras que se puede tener
+    [0,1,2], //horizontal
+    [3,4,5], //horizontal
+    [6,7,8], //horizontal
+
+    [0,3,6], //vertical
+    [1,4,7], //vertical
+    [2,5,8], //vertical
+
+    [0,4,8], //diagonal
+    [2,4,6] //diagonal
+
+
+  ]
   const updateBoard = (index) => {
 
     // Lo que hace esta linea de codigo es no permitir la actualizaciòn del estado porque encuentra un elemento dentro del componente
-    if (board[index]) return
+    /*board[index] verifica si la posición index en el tablero ya tiene un valor asignado. 
+    Si board[index] ya contiene un valor (diferente de null), significa que esa posición
+    del tablero ya está ocupada por un jugador, por lo que no se permite actualizar esa
+    posición nuevamente. En ese caso, el código sale de la función updateBoard y no realiza ninguna acción adicional.
+    winner verifica si ya hay un ganador en el juego. Si winner tiene un valor distinto de null, significa que ya se ha determinado un ganador previament*/
+
+    if (board[index] || winner) return
 
 
     /*Se crea una variable newBoard que es una copia del tablero actual utilizando el operador de propagación
@@ -48,6 +89,12 @@ function App() {
     const newTurn = turn === TURN.X ? TURN.O : TURN.X
     //Como sabemos que el useState necesita de un estado actual y uno de actualizacion de estado
     setTurn(newTurn);
+
+    //Revisar el ganador e informar quien gano la partida
+    const newWinner = checkWinner(newBoard);
+    if(newWinner){
+      setWinner(newWinner)
+    }
   }
 
 
