@@ -1,6 +1,7 @@
 ## Creación de una PWA con un juego
 [] Spread Operator
 [] Rest Operator
+[] Others
 
 ### Estados en React
 Tenemos una caja vacia en la cual esa caja representa un **estado** en React. El estado es como una memoria especial que puede almacenar información importante para tu aplicación.
